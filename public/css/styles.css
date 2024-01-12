@@ -1,6 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Fasthand&family=Freehand&family=Fuzzy+Bubbles&family=Merriweather:wght@300&family=Noto+Serif&family=Open+Sans:wght@300&family=Roboto:wght@300;400;500&display=swap');
 /******* Change Box Model ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
+}
+body {
+  font-family: 'Merriweather', sans-serif;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.siteName a {
+  color: black;
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#tools a {
+  color: black;
+  text-decoration: none;
+}
+
+nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: -2px;
+  color: white;
+  background-color: black;
+  padding: 10px;
+}
+
+nav ul li {
+  list-style: none;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+.delorean-pic img {
+  width: 280px;
+  margin-left: 50px;
+}
+
+.delorean-ad {
+  position: absolute;
+  top: 210px;
+  width: 113px;
+  background-color: rgba(255,255,255,0.5);
+}
+
+.delorean-ad h3 {
+  font-size: 1rem;
+  color: #13ACD2;
+  font-weight: bold;
+  margin: 0;
+}
+
+.delorean-ad p {
+  font-size: 0.9rem;
+  color: #13acd2;
+  margin: 0;
+}
+
+.delorean-ad img {
+  width: 90px;
+}
+
+.delorean-details h2 {
+  padding-top: 20px;
+  font-size: 1.5rem;
+}
+
+.delorean-details li {
+  font-size: .9rem;
+  margin-bottom: 10px;
+  margin-left: -20px;
+}
+
+.delorean-upgrades h2 {
+  padding-top: 20px;
+  font-size: 1.5rem;
+}
+
+.upgrades-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.upgrades-block div {
+  background-color: #AFE2EE;
+  border: solid 1.9px #13ACD2;
+}
+
+.upgrades-block a {
+  font-size: .8rem;
+  margin: 20px;
+}
+
+.upgrades-block img {
+  width: 50px;
+  margin: 20px 50px;
+}
+
+footer p {
+  font-size: 1rem;
+}
+
+@media(min-width:64em) {
+  body {
+    width: 900px;
+    margin: 0 auto;
+    border: solid 2px #13ACD2;
+  }
+  header {
+    justify-content: space-around;
+  }
+  .siteName a {
+    font-size: 2rem;
+  }
+
+  #tools a {
+    font-size: 1.2rem;
+  }
+
+  nav {
+    margin: 0 10px;
+  }
+
+  h1 {
+    margin-top: 80px;
+    margin-left: 50px;
+  }
+
+  .delorean-pic img {
+    width: 540px;
+    margin: 80px 0 0 300px;
+  }
+
+  .delorean-ad h3 {
+    font-size: 1.3rem;
+  }
+
+  .delorean-ad p {
+    font-size: 1.2rem;
+  }
+
+  .delorean-ad img {
+    width: 110px;
+    margin-top: 10px;
+  }
+
+  .delorean-ad {
+    width: 150px;
+    top: 350px;
+    left: 740px;
+  }
+
+  .division {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  .delorean-upgrades {
+    width: 250px;
+    margin-left: 70px;
+  }
+
+  .delorean-details {
+    margin-right: 100px;
+  }
+
+  .delorean-details li {
+    margin-bottom: 40px;
+  }
+
+  footer p {
+    margin-left: 20px;
+  }
 }
