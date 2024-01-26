@@ -2,11 +2,10 @@
 data is sent to a view to be displayed -->
 
 <% if (title) { %>
-<h1><% = title %></h1>
-<% }else {
-        res.redirect('/')
-    } %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
 
-<% # messages %>
-
-<% - grid %>
+<%# messages() %>
+<%- grid %>
