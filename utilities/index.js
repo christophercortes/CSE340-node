@@ -24,6 +24,8 @@ Util.getNav = async function (req, res, next) {
   return list;
 };
 
+module.exports = Util;
+
 /* **************************************
  * Build the classification view HTML
  * ************************************ */
@@ -77,13 +79,50 @@ Util.buildClassificationGrid = async function (data) {
   return grid;
 };
 
+/* ************************ */
+
+Util.buildItemDetailViewGrid = async function (data) {
+  let grid = " ";
+
+  if (data.length > 0) {
+    data.forEach((vehicle) => {
+      grid += `<div clas="vehicle-detail">`;
+      grid += `<img src="${vehicle.inv_image}" alt="Images of ${vehicle.inv_model} on CSE Motors" />`;
+      grid += `<table>`;
+      grid += `<tr>`;
+      grid += `<td class="detail-label">Color:</td>`;
+      grid += `<td class="detail-value">${vehicle.inv_color}</td>`;
+      grid += `</tr>`;
+
+      grid += `<tr>`;
+      grid += `<td class="detail-label">Mileage:</td>`;
+      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(
+        vehicle.inv_miles
+      )}</td>`;
+      grid += `</tr>`;
+
+      grid += `<tr>`;
+      grid += `td class="detail-label">Price:</td>`;
+      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(
+        vehicle.inv_price
+      )}</td>`;
+      grid += `</tr>`;
+    });
+    grid += `</div>`;
+  } else {
+    grid = `<p class="notice">Sorry, no matching vehicle could be found.</p>`;
+  }
+
+  return grid;
+};
 
 /* ***************************
-* Middleware For Handling Errors
-* Wrap other functions in this for
-* General Error Handling
-***************************** */
+ * Middleware For Handling Errors
+ * Wrap other functions in this for
+ * General Error Handling
+ ***************************** */
 
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+Util.handleErrors = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
 
-module.exports = Util
+module.exports = Util;

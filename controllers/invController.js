@@ -19,4 +19,26 @@ invCont.buildByClassificationId = async function (req, res, next) {
   });
 };
 
+/* ***********************
+ * Build inventory item detail view
+ * ***********************/
+
+invCont.buildItemDetailView = async function (req, res, next) {
+  const detailView_id = req.params.itemId;
+  const data = await invModel.getDetailViewId(detailView_id);
+  const grid = await utilities.buildDetailViewGrid(data);
+  let nav = await utilities.getNav();
+
+  const year = data[0].inv_year;
+  const model = data[0].inv_model;
+  const make = data[0].inv_make;
+
+  res.render("./inventory/item-detail", {
+    title: `${year} ${model} ${make}`,
+    nav,
+    grid,
+  });
+  console.error(error);
+  res.status(500).send("Internal Server Error");
+};
 module.exports = invCont;

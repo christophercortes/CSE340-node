@@ -15,16 +15,33 @@ async function getClassifications() {
 async function getInventoryByClassificationId(classification_id) {
   try {
     const data = await pool.query(
-      `SELECT * FROM public.inventory AS i 
-      JOIN public.classification AS c 
-      ON i.classification_id = c.classification_id 
+      `SELECT * FROM public.inventory AS i
+      JOIN public.classification AS c
+      ON i.classification_id = c.classification_id
       WHERE i.classification_id = $1`,
       [classification_id]
     );
     return data.rows;
   } catch (error) {
-    console.error("getclassificationsbyid error " + error);
+    console.error("getclassificationsbyid error " + error); // writes the error
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId };
+/* ****************************
+* Get inventory item detail view
+* ****************************/
+async function getInventoryDetailView(detailView_id) {
+  try {
+    const data = await pool.query(
+      `SELECT * FROM public.inventory AS i
+      WHERE i.inv_id = $1`,
+      [detailView_id]
+    );
+    return data.rows;
+  } catch (error) {
+    console.error("getinventorydetailsView error" + error);
+    throw error
+  }
+}
+
+module.exports = { getClassifications, getInventoryByClassificationId, getInventoryDetailView };
