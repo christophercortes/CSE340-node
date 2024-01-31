@@ -48,13 +48,13 @@ app.use(async (err, req, res, next) => {
   let message;
   switch (err.status) {
     case 404:
-      message = "1";
+      message = "The page was not found";
       break;
     case 500:
-      message = "2";
+      message = "Server error";
       break;
     default:
-      message = "3 hey!";
+      message = "Unexpected error";
   }
   
   res.render("errors/error", {
