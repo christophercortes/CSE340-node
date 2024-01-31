@@ -38,7 +38,10 @@ invCont.buildItemDetailView = async function (req, res, next) {
     nav,
     grid,
   });
-  console.error(error);
-  res.status(500).send("Internal Server Error");
 };
+
+invCont.buildError = function (req, res, next) {
+  throw { message: "there is an error" };
+};
+
 module.exports = invCont;

@@ -82,11 +82,12 @@ Util.buildClassificationGrid = async function (data) {
 /* ************************ */
 
 Util.buildItemDetailViewGrid = async function (data) {
-  let grid = " ";
+  let grid;
 
   if (data.length > 0) {
+    grid = `<div id="detail-inv-grid">`;
     data.forEach((vehicle) => {
-      grid += `<div clas="vehicle-detail">`;
+      grid += `<div class="vehicle-detail">`;
       grid += `<img src="${vehicle.inv_image}" alt="Images of ${vehicle.inv_model} on CSE Motors" />`;
       grid += `<table>`;
       grid += `<tr>`;
@@ -102,7 +103,7 @@ Util.buildItemDetailViewGrid = async function (data) {
       grid += `</tr>`;
 
       grid += `<tr>`;
-      grid += `td class="detail-label">Price:</td>`;
+      grid += `<td class="detail-label">Price:</td>`;
       grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(
         vehicle.inv_price
       )}</td>`;

@@ -1,10 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Fasthand&family=Freehand&family=Fuzzy+Bubbles&family=Merriweather:wght@300&family=Noto+Serif&family=Open+Sans:wght@300&family=Roboto:wght@300;400;500&display=swap');
+
 /******* Change Box Model ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
+
 body {
   font-family: 'Merriweather', sans-serif;
 }
@@ -36,6 +38,23 @@ nav ul {
   color: white;
   background-color: black;
   padding: 10px;
+  font-size: .8rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+}
+
+nav a:hover {
+  color: white;
+  background-color: black;
+}
+
+h2 a {
+  text-decoration: none;
+  color: black;
+  font-size: 1rem;
 }
 
 nav ul li {
@@ -43,7 +62,8 @@ nav ul li {
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  text-align: center;
 }
 
 .delorean-pic img {
@@ -55,7 +75,7 @@ h1 {
   position: absolute;
   top: 210px;
   width: 113px;
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .delorean-ad h3 {
@@ -116,15 +136,31 @@ footer p {
   font-size: 1rem;
 }
 
+/* List of Cars Grid  */
+#inv-display {
+  list-style-type: none;
+}
+
+#inv-display hr {
+  display: none;
+}
+
+a img {
+  padding-top: 10px;
+}
+
 @media(min-width:64em) {
   body {
     width: 900px;
     margin: 0 auto;
     border: solid 2px #13ACD2;
+    margin-top: 20px;
   }
+
   header {
     justify-content: space-around;
   }
+
   .siteName a {
     font-size: 2rem;
   }
@@ -187,5 +223,22 @@ footer p {
 
   footer p {
     margin-left: 20px;
+  }
+
+  /* List of Cars Grid  */
+  #inv-display {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+    margin-right: 40px;  
+    text-align: center;
+  }
+
+  ul li {    
+    border: solid 2px black;    
+  }
+
+  a img {
+    width: 150px;
   }
 }
