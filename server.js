@@ -54,7 +54,7 @@ app.use(async (err, req, res, next) => {
       message = "2";
       break;
     default:
-      message = "3";
+      message = "3 hey!";
   }
   
   res.render("errors/error", {

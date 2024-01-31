@@ -7,7 +7,7 @@ const invController = require("../controllers/invController");
 router.get("/type/:classificationId", invController.buildByClassificationId);
 
 // Route to build individual item detail view
-router.get("/item/:itemId", invController.buildItemDetailView);
+router.get("/detail/:inventoryId", invController.buildByInventoryId);
 
 router.get("/throwerror", invController.buildError);
 

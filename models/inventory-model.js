@@ -30,18 +30,17 @@ async function getInventoryByClassificationId(classification_id) {
 /* ****************************
 * Get inventory item detail view
 * ****************************/
-async function getInventoryDetailView(detailView_id) {
+async function getDetailsByInventoryId(inventory_id) {
   try {
     const data = await pool.query(
       `SELECT * FROM public.inventory AS i
       WHERE i.inv_id = $1`,
-      [detailView_id]
+      [inventory_id]
     );
     return data.rows;
   } catch (error) {
-    console.error("getinventorydetailsView error" + error);
-    throw error
+    console.error("getdetailsbyinventoryid error" + error);
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getInventoryDetailView };
+module.exports = { getClassifications, getInventoryByClassificationId, getDetailsByInventoryId };

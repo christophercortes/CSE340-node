@@ -81,7 +81,7 @@ Util.buildClassificationGrid = async function (data) {
 
 /* ************************ */
 
-Util.buildItemDetailViewGrid = async function (data) {
+Util.buildDetailGrid = async function (data) {
   let grid;
 
   if (data.length > 0) {
@@ -89,25 +89,27 @@ Util.buildItemDetailViewGrid = async function (data) {
     data.forEach((vehicle) => {
       grid += `<div class="vehicle-detail">`;
       grid += `<img src="${vehicle.inv_image}" alt="Images of ${vehicle.inv_model} on CSE Motors" />`;
+      grid += `<h1 class="">${vehicle.inv_make} ${vehicle.inv_model} description</h1>`;
+      grid += `<table>`;
+      grid += `<tr>`;
+      grid += `<td class="detail-label">Price:</td>`;
+      grid += `<td class="detail-value">$${new Intl.NumberFormat("en-US").format(vehicle.inv_price)}</td>`;
+      grid += `</tr>`;
+      grid += `</table>`;
+      grid += `<div class="vehicle-description">`;
+      grid += `<h3 class="paragraph-title">Description:</h3>`;
+      grid += `<p class="">${vehicle.inv_description}</p>`;
+      grid += `</div>`;
       grid += `<table>`;
       grid += `<tr>`;
       grid += `<td class="detail-label">Color:</td>`;
       grid += `<td class="detail-value">${vehicle.inv_color}</td>`;
       grid += `</tr>`;
-
       grid += `<tr>`;
       grid += `<td class="detail-label">Mileage:</td>`;
-      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(
-        vehicle.inv_miles
-      )}</td>`;
+      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(vehicle.inv_miles)}</td>`;
       grid += `</tr>`;
-
-      grid += `<tr>`;
-      grid += `<td class="detail-label">Price:</td>`;
-      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(
-        vehicle.inv_price
-      )}</td>`;
-      grid += `</tr>`;
+      grid += `</table>`;
     });
     grid += `</div>`;
   } else {

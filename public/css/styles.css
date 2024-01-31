@@ -151,6 +151,16 @@ a img {
   padding-top: 10px;
 }
 
+.vehicle-detail img {
+  width: 304px;
+}
+
+.vehicle-description h3,
+
+.detail-label {
+  font-weight: bold;
+}
+
 @media(min-width:64em) {
   body {
     width: 900px;
@@ -230,15 +240,26 @@ a img {
   /* List of Cars Grid  */
   #inv-display {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 10px; 
-  }
-
-  ul li {    
-    border: solid 2px black;    
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
   }
 
   a img {
-    width: 150px;
+    width: 70%;
+    height: 60%;
+  }
+
+  .vehicle-detail img {
+    width: 450px;
+    margin-left: 250px;
+  }
+
+  .detail-label {
+   padding-left: 100px;
+  }
+
+  .vehicle-description {
+    padding-left: 100px;
+    padding-right: 100px;
   }
 }
