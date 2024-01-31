@@ -128,8 +128,9 @@ h1 {
 }
 
 .upgrades-block img {
-  width: 50px;
-  margin: 20px 50px;
+  width: 50%;
+  height: 50%;
+  margin-left: 31px;
 }
 
 footer p {
@@ -233,6 +234,10 @@ a img {
     margin-bottom: 40px;
   }
 
+  .upgrades-block a {
+    margin: 7px;
+  }
+
   footer p {
     margin-left: 20px;
   }
@@ -255,7 +260,7 @@ a img {
   }
 
   .detail-label {
-   padding-left: 100px;
+    padding-left: 100px;
   }
 
   .vehicle-description {
