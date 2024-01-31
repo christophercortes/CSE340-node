@@ -17,16 +17,16 @@ const utilities = require("./utilities/");
 /* ***********************
  * View Engine and Templates
  *************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set("layout", "./layouts/layout"); // not at views root
 
 /* ***********************
  * Routes
  *************************/
 app.use(static);
 // Index route
-app.get("/", baseController.buildHome)
+app.get("/", baseController.buildHome);
 //Inventory routes
 app.use("/inv", inventoryRoute);
 //Index route with error handling
@@ -56,7 +56,7 @@ app.use(async (err, req, res, next) => {
     default:
       message = "Unexpected error";
   }
-  
+
   res.render("errors/error", {
     title: err.status || "Server Error",
     message,
