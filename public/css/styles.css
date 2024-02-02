@@ -163,6 +163,62 @@ a img {
   font-weight: bold;
 }
 
+/*Login*/
+main .loginForm {
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #8fdcf0;
+}
+
+form {
+  padding-left: 10px;
+  border: solid 1px black;
+}
+
+form label.first {
+  display: block;
+  padding-top: 1rem;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+input {
+  display: block;
+  font-size: 1rem;
+  border-radius: 3px;
+  width: 90%;
+  padding: 0.75rem;
+}
+
+form p {
+  font-size: 1.3rem;
+  text-align: left;
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.showPassword {
+  width: 180px;
+  background-color: grey;
+  color: white;
+  font-weight: bold;
+}
+
+button {
+  width: 70px;
+  padding: 0.75rem;
+  font-weight: bold;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.noAccount {
+  text-align: center;
+  padding: 20px;
+  font-weight: bold;
+}
+
 @media(min-width:64em) {
   body {
     width: 900px;
@@ -267,5 +323,12 @@ a img {
   .vehicle-description {
     padding-left: 100px;
     padding-right: 100px;
+  }
+
+  /*Login*/
+  main .loginForm {
+    width: 600px;
+    margin-left: 18%;
+    
   }
 }

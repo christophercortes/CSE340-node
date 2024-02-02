@@ -1,0 +1,33 @@
+<title><%- title %></title>
+<h1><%= title %></h1>
+
+<!-- Display flash messages if any -->
+<%- messages() %>
+
+<div class="loginForm">
+    <form action="/login" method="post">
+        <label class="first" for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+        <label class="first" for="pwd">Password:</label>
+        <input type="password" id="pwd" name="pwd" pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{12,}$" required>
+        <p>Passwords must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.
+        </p>
+        <input class="showPassword" type="button" onclick="showPassword()" value="Show Password">
+        <button class="login" type="submit">Login</button>
+        
+    </form>
+
+    <p class="noAccount">No account?<a href="/register">Sign-up</a></p>
+
+</div>
+
+<script>
+    function showPassword() {
+        const myPassword = document.getElementById("pwd");
+        if (myPassword.type === "password") {
+            myPassword.type = "text";
+        } else {
+            myPassword.type = "password";
+        }
+    }
+</script>
