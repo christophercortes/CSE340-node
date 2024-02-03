@@ -43,4 +43,21 @@ async function getDetailsByInventoryId(inventory_id) {
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getDetailsByInventoryId };
+/* ************************
+* Insert a New Inventory Item
+* ************************/
+
+async function getAddInventoryId(inventory_id) {
+  try {
+    const data = await pool.query(
+      `INSERT INTO public.inventory AS i
+      WHERE i.inv_is = $1`,
+      [inventory_id]
+    );
+    return data.rows;
+  } catch (error) {
+    console.error("getdetailsbyaddinventoryid" + error);
+  }
+}
+
+module.exports = { getClassifications, getInventoryByClassificationId, getDetailsByInventoryId, getAddInventoryId };

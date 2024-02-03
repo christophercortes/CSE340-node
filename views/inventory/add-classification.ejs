@@ -1,0 +1,13 @@
+<title><%- title %></title>
+<h1><%= title %></h1>
+
+<!-- Display flash messages if any -->
+<%- messages() %>
+
+<div class="loginForm">
+    <form id="loginForm" action="/inventory/add-classification" method="post" onsubmit="return validateForm()">
+        <label class="first" for="classificationName">Classification</label>
+        <input type="text" id="classificationName" name="classification_name" required>
+        <button class="login" type="submit">Add Vehicle</button>
+    </form>
+</div>

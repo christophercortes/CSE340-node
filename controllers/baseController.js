@@ -8,10 +8,4 @@ baseController.buildHome = async function (req, res) {
   res.render("index", { title: "Home", nav });
 };
 
-// baseController, buildLogin = async function (req, res) {
-//   const loginMessage = await utilities.getNav();
-//   req.flash("notice", "Hi!")
-//   res.render("index", { title: "Login", loginMessage });
-// };
-
 module.exports = baseController;

@@ -16,6 +16,7 @@ const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities/");
 const accountRoute = require("./routes/accountRoute");
+const bodyParser = require("body-parser");
 
 /* ***********************
  * View Engine and Templates
@@ -44,6 +45,9 @@ app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // not at views root
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 /* ***********************
  * Routes
  *************************/
@@ -57,6 +61,8 @@ app.get("/", baseController.buildHome);
 app.use("/inv", inventoryRoute);
 //Account routes
 app.use("/account", accountRoute);
+
+app.use("/inventory", accountRoute);
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

@@ -219,6 +219,14 @@ button {
   font-weight: bold;
 }
 
+/*Register*/
+.register {
+  width: 180px;
+  background-color: grey;
+  color: white;
+  font-weight: bold;
+}
+
 @media(min-width:64em) {
   body {
     width: 900px;
@@ -329,6 +337,6 @@ button {
   main .loginForm {
     width: 600px;
     margin-left: 18%;
-    
+
   }
 }
