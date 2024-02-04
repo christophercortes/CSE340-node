@@ -8,26 +8,38 @@
 
 <div class="loginForm">
     <form id="loginForm" action="/add-inventory" method="post" onsubmit="return validateForm()">
-        <label class="first" for="classificationName">Classification</label>
-        <input type="text" id="classificationName" name="classification_name" required>
+        <label class="first" for="classificationId">Classification</label>
+        <select id="classificationId" name="classification_id" required>
+           <option></option>
+        </select>
+
         <label class="first" for="makeName">Make</label>
         <input type="text" id="makeName" name="inv_make" required>
+
         <label class="first" for="modelName">Model</label>
         <input type="text" id="modelName" name="inv_model" required>
+
         <label class="first" for="descriptionName">Description</label>
         <textarea name="inv_description" rows="10" cols="30"></textarea>
+
         <label class="first" for="imagePath">Image Path</label>
-        <input type="text" id="imagePath" name="inv_image" required>
+        <input type="text" id="imagePath" name="inv_image" value="/images/no_image.jpg" required>
+
         <label class="first" for="thumbnailPath">Thumbnail Path</label>
-        <input type="text" id="thumbnailPath" name="inv_thumbnail">
+        <input type="text" id="thumbnailPath" name="inv_thumbnail" value="/images/no_thumbnail.jpg">
+
         <label class="first" for="price">Price</label>
         <input type="text" id="price" name="inv_price" required>
+
         <label class="first" for="year">Year</label>
         <input type="text" id="year" name="inv_year">
+
         <label class="first" for="miles">Miles</label>
         <input type="text" id="miles" name="inv_miles" required>
+
         <label class="first" for="color">Color</label>
         <input type="text" id="color" name="inv_color" required>
+
         <button class="login" type="submit">Add Vehicle</button>
     </form>
 </div>

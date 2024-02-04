@@ -30,10 +30,25 @@ router.get("/add-classification", utilities.handleErrors(accountController.build
 // This is the path to ""
 router.post(
   "/register",
-  regValidate.registationRules(),
+  regValidate.classificationRules(),
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 );
+
+router.post(
+  "/add-classification",
+  regValidate.classificationRules(),
+  regValidate.checkRegData,
+  utilities.handleErrors(accountController.registerAccount)
+);
+
+router.post(
+  "/add-inventory",
+  regValidate.classificationRules(),
+  regValidate.checkRegData,
+  utilities.handleErrors(accountController.registerAccount)
+);
+
 
 // Process the login attempt
 router.post("/login", (req, res) => {

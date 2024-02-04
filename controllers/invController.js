@@ -44,52 +44,37 @@ invCont.buildError = function (req, res, next) {
   throw { message: "there is an error" };
 };
 
-// /* ***********************
-// * Build Inventory Management View
-// * ***********************/
+/* **************************
+* Build Classification View
+* **************************/
 
-// invCont.buildByManagementId = async function (req, res, next) {
-//   const management_id = req.params.inventoryId;
-//   const data = await invModel.getManagementByManagementId(management_id);
-//   const grid = await utilities.buildManagementGrid(data);
-//   let nav = await utilities.getNav();
-//   res.render("./inventory/management", {
-//     title: "Iventory Management",
-//     nav,
-//     grid,
-//   });
-// };
+invCont.buildByClassificationId = async function (req, res, next) {
+  const classification_name = req.params.inventoryId;
+  const data = await invModel.getAddInventoryId(classification_name);
+  const grid = await utilities.buildAddClassificationGrid(data);
+  let nav = await utilities.getNav();
+  nav.push({ name: classification_name, link: `/partial/navigation` });
+  res.render("./inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    grid,
+  });
+};
 
-// /* **************************
-// * Build Classification View
-// * **************************/
+/* ***********************
+* Build add-inventory View
+* ***********************/
 
-// invCont.buildByClassificationId = async function (req, res, next) {
-//   const addClassification_id = req.params.inventoryId;
-//   const data = await invModel.getAddClassificationId(addClassification_id);
-//   const grid = await utilities.buildAddClassificationGrid(data);
-//   let nav = await utilities.getNav();
-//   res.render("./inventory/add-classification", {
-//     title: "Add Classification",
-//     nav,
-//     grid,
-//   });
-// };
-
-// /* ***********************
-// * Build add-inventory View
-// * ***********************/
-
-// invCont.buildByAddInventoryId = async function (req, res, next) {
-//   const addInventory_id = req.params.inventoryId;
-//   const data = await invModel.getAddInventoryId(addInventory_id);
-//   const grid = await utilities.buildAddInventoryGrid(data);
-//   let nav = await utilities.getNav();
-//   res.render("./inv/add-inventory", {
-//     title: "Add Inventory",
-//     nav,
-//     grid,
-//   });
-// }; 
+invCont.buildByAddInventoryId = async function (req, res, next) {
+  const addInventory_id = req.params.inventoryId;
+  const data = await invModel.getAddInventoryId(addInventory_id);
+  const grid = await utilities.buildAddInventoryGrid(data);
+  let nav = await utilities.getNav();
+  res.render("./inv/add-inventory", {
+    title: "Add Inventory",
+    nav,
+    grid,
+  });
+}; 
 
 module.exports = invCont;

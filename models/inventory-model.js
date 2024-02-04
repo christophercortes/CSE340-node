@@ -28,8 +28,8 @@ async function getInventoryByClassificationId(classification_id) {
 }
 
 /* ****************************
-* Get inventory item detail view
-* ****************************/
+ * Get inventory item detail view
+ * ****************************/
 async function getDetailsByInventoryId(inventory_id) {
   try {
     const data = await pool.query(
@@ -44,15 +44,16 @@ async function getDetailsByInventoryId(inventory_id) {
 }
 
 /* ************************
-* Insert a New Inventory Item
-* ************************/
+ * Insert a New Inventory Item
+ * ************************/
 
-async function getAddInventoryId(inventory_id) {
+async function getAddInventoryId(classification_name) {
   try {
     const data = await pool.query(
-      `INSERT INTO public.inventory AS i
-      WHERE i.inv_is = $1`,
-      [inventory_id]
+      `INSERT INTO classification 
+	(classification_name)
+VALUES
+	(${classification_name})`,
     );
     return data.rows;
   } catch (error) {
@@ -60,4 +61,9 @@ async function getAddInventoryId(inventory_id) {
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getDetailsByInventoryId, getAddInventoryId };
+module.exports = {
+  getClassifications,
+  getInventoryByClassificationId,
+  getDetailsByInventoryId,
+  getAddInventoryId,
+};
