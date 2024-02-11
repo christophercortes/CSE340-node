@@ -53,7 +53,7 @@ async function getAddInventoryId(classification_name) {
       `INSERT INTO classification 
 	(classification_name)
 VALUES
-	(${classification_name})`,
+	(${classification_name})`
     );
     return data.rows;
   } catch (error) {

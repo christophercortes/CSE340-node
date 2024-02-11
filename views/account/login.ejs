@@ -5,31 +5,33 @@
 <%- messages() %>
 
 <div class="loginForm">
-    <form id="loginForm" action="/login" method="post">
-        <label class="first" for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
-        <label class="first" for="pwd">Password:</label>
-        <input type="password" id="pwd" name="pwd" required pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{12,}$">
+    <form id="loginForm" action="/account/login" method="post">
+        <label class="first" for="accountEmail">Email Address:</label>
+        <input type="email" id="accountEmail" name="account_email" required value="<%= locals.account_email %>"
+            placeholder="Enter a valid email address">
+        <label class="first" for="accountPassword">Password:</label>
+        <input type="password" id="accountPassword" name="account_password" required
+            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$">
         <p>Passwords must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.
         </p>
         <input class="showPassword" type="button" onclick="showPassword()" value="Show Password">
         <button class="login" type="submit">Login</button>
-        
+
     </form>
 
     <p class="noAccount">No account?<a href="/account/register">Sign-up</a></p>
 
 
     <script>
-        function showPassword() {
-        const myPassword = document.getElementById("pwd");
-        if (myPassword.type === "password") {
-        myPassword.type = "text";
-        } else {
-        myPassword.type = "password";
-        }
-        }
+        
+         function showPassword() {
+         const myPassword = document.getElementById("accountPassword");
+         if (myPassword.type === "password") {
+         myPassword.type = "text";
+         } else {
+         myPassword.type = "password";
+         }
+         }
+
     </script>
 </div>
-
-<script src="/public/js/script.js"></script>
