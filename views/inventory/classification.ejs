@@ -1,11 +1,12 @@
 <!-- when the route that requests to see all the vehicles in inventory by a particular classification is processed, the 
 data is sent to a view to be displayed -->
 
-<% if (title) { %>
-<h1><%= title %></h1>
+<% if (title) { %> <!--Uses a EJS code block to contain a JS. If structure determines if a "title variable exists."-->
+<h1><%= title %></h1> <!--if the variable exits, it is displayed within adn <h1> element.-->
 <% } else {
-  res.redirect('/')
-} %>
+  res.redirect('/') 
+} %> <!--redirects the response object to the default index route, to deliver the home view.
+-->
 
-<%# messages() %>
-<%- grid %>
+<%- messages() %> <!--display messages in a view.-->
+<%- grid %> <!--it is the main content of the view.-->

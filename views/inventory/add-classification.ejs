@@ -4,15 +4,14 @@
 <!-- Display flash messages if any -->
 <%- messages() %>
 
-<!--  -->
-
 <h2>Field is required</h2>
 
 <div class="loginForm">
-    <form id="loginForm" action="/inventory/add-classification" method="post" onsubmit="return validateForm()">
+    <form id="loginForm" action="/inventory/add-classification" method="post">
         <label class="first" for="classificationName">Classification Name</label>
         <p>NAME MUST BE ALPHABETIC CHARACTERS ONLY.</p>
-        <input type="text" id="classificationName" name="classification_name" required pattern="[a-z]+">
+        <input type="text" id="classificationName" name="classification_name" required pattern="[a-z]+"
+            value="<%= locals.classification_name %>">
         <button class="login" type="submit">Add Vehicle</button>
     </form>
 </div>

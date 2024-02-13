@@ -32,9 +32,9 @@ validate.loginRules = () => {
         minNumbers: 1,
         minSymbols: 1,
       })
-      .withMessage("Password does not meet requirements.")
+      .withMessage("Password does not meet requirements."),
   ];
-}
+};
 
 /*  **********************************
  *  Registration Data Validation Rules
@@ -53,12 +53,20 @@ validate.registationRules = () => {
       .isLength({ min: 2 })
       .withMessage("Please provide a last name."), // on error this message is sent.
 
-    // valid email is required and cannot already exist in the DB
+    // valid email is required and cannot already exist in the database
     body("account_email")
-    .trim()
-    .isEmail()
-    .normalizeEmail() // refer to validator.js docs
-    .withMessage("A valid email is required."),
+      .trim()
+      .isEmail()
+      .normalizeEmail() // refer to validator.js docs
+      .withMessage("A valid email is required.")
+      .custom(async (account_email) => {
+        const emailExists = await accountModel.checkExistingEmail(
+          account_email
+        );
+        if (emailExists) {
+          throw new Error("Email exists. Please log in or use different email");
+        }
+      }),
 
     // password is required and must be strong password
     body("account_password")
@@ -71,59 +79,22 @@ validate.registationRules = () => {
         minSymbols: 1,
       })
       .withMessage("Password does not meet requirements."),
-  ]
-}
+  ];
+};
 
 validate.classificationRules = () => {
-  return [ 
+  return [
     body("classification_name")
       .trim()
-      .isLength({ min: 1 })
-    .withMessage("Provide a correct classification name.")
-  ]
-}
+      .matches(/[A-Zaz0-9]/)
+      .withMessage(
+        "Provide a correct classification name (alphanumeric characters only)."
+      ),
+  ];
+};
 
 validate.inventoryRules = () => {
   return [
-    // firstname is required and must be string
-    // body("account_firstname")
-    //   .trim()
-    //   .isLength({ min: 1 })
-    //   .withMessage("Please provide a first name."), // on error this message is sent.
-
-    // // lastname is required and must be string
-    // body("account_lastname")
-    //   .trim()
-    //   .isLength({ min: 2 })
-    //   .withMessage("Please provide a last name."), // on error this message is sent.
-
-    // // valid email is required and cannot already exist in the DB
-    // body("account_email")
-    //   .trim()
-    //   .isEmail()
-    //   .normalizeEmail() // refer to validator.js docs
-    //   .withMessage("A valid email is required.")
-    //   .custom(async (account_email) => {
-    //     const emailExists = await accountModel.checkExistingEmail(
-    //       account_email
-    //     );
-    //     if (emailExists) {
-    //       throw new Error("Email exists. Please log in or use different email");
-    //     }
-    //   }),
-
-    // password is required and must be strong password
-    // body("account_password")
-    //   .trim()
-    //   .isStrongPassword({
-    //     minLength: 12,
-    //     minLowercase: 1,
-    //     minUppercase: 1,
-    //     minNumbers: 1,
-    //     minSymbols: 1,
-    //   })
-    //   .withMessage("Password does not meet requirements."),
-
     body("classification_name")
       .trim()
       .isLength({ min: 2 })
@@ -169,7 +140,6 @@ validate.inventoryRules = () => {
       .isLength({ min: 2 })
       .withMessage("Please provide a color name."),
   ];
-   
 };
 
 /* ******************************
@@ -186,7 +156,7 @@ validate.checkLoginData = async (req, res, next) => {
       title: "Login",
       nav,
       account_email,
-      account_password
+      account_password,
     });
     return;
   }
@@ -218,36 +188,48 @@ validate.checkClassificationData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    res.render("inventory/add-classification"), {
-      errors,
-      title: "Classification",
-      nav,
-      classification_name
-    }
-    return;
+    return (
+      res.render("inventory/add-classification"),
+      {
+        errors,
+        title: "Classification",
+        nav,
+        classification_name,
+      }
+    );
   }
   next();
 };
 
 validate.checkInvData = async (req, res, next) => {
-  const { inv_make, inv_mode, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body;
+  const {
+    inv_make,
+    inv_model,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+  } = req.body;
   let errors = [];
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    res.render("inventory/add-inventory"), {
-      errors,
-      title: "Inventory",
-      nav,
-      inv_make,
-      inv_mode,
-      inv_image,
-      inv_thumbnail,
-      inv_price,
-      inv_year,
-      inv_miles,
-      inv_color
-    }
+    res.render("inventory/add-inventory"),
+      {
+        errors,
+        title: "Inventory",
+        nav,
+        inv_make,
+        inv_model,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color,
+      };
     return;
   }
   next();

@@ -5,12 +5,17 @@ const invController = require("../controllers/invController");
 const utilities = require("../utilities/");
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+// the route must match the one from utilities/index.js
+//invController.buildByClassification function within the invController will be used to fulfill the request sent by the route.
+router.get("/type/:classificationId",
+  invController.buildByClassificationId);
 
 // Route to build individual item detail view
-router.get("/detail/:inventoryId", invController.buildByInventoryId);
+router.get("/detail/:inventoryId",
+  invController.buildByInventoryId);
 
-router.get("/throwerror", invController.buildError);
+// router.get("/throwerror",
+//   invController.buildError);
 
 router.get(
   "/getInventory/:classification_id",
@@ -19,7 +24,7 @@ router.get(
 
 // Route to build the Add inventory view 
 router.get(
-  "/inventory/edit-inventory/:inventory_id",utilities.handleErrors(
+  "/inventory/:inventory_id",utilities.handleErrors(
   invController.buildByEditInventoryId)
 );
 

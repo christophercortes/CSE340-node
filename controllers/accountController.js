@@ -4,14 +4,14 @@ const bcrypt = require("bcryptjs");
 const { getClassifications } = require("../models/inventory-model");
 
 /* ***************************
-* Delivering the View
-* ***************************/
+ * Delivering the View
+ * ***************************/
 
-/* Login View */
+/* Deliver login view */
 async function buildLogin(req, res, next) {
   let nav = await utilities.getNav();
   res.render("account/login", {
-    //login match in render function controller
+    // indicates the view to be returned to the client.
     title: "Login",
     nav,
     errors: null,
@@ -33,14 +33,14 @@ async function buildRegistration(req, res, next) {
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav();
   res.render("inventory/management", {
-    title: "Vehicle Management",
+    title: "Management View",
     nav,
-    erros: null,
+    errors: null,
   });
 }
 
 /* Classification view */
-async function buildAddClassification(req, res, next) {
+async function buildAddNewCarClassification(req, res, next) {
   try {
     let nav = await utilities.getNav();
     res.render("inventory/add-classification", {
@@ -57,11 +57,9 @@ async function buildAddClassification(req, res, next) {
 async function buildAddInventory(req, res, next) {
   try {
     let nav = await utilities.getNav();
-    let classifications = await getClassifications();
     res.render("inventory/add-inventory", {
       title: "Add Inventory",
       nav,
-      classifications,
       errors: req.flash("error"),
     });
   } catch (error) {
@@ -70,36 +68,8 @@ async function buildAddInventory(req, res, next) {
 }
 
 /* ****************************************
-*  Process Registration
-* *************************************** */
-async function registerAccount(req, res) {
-  let nav = await utilities.getNav()
-  const { account_firstname, account_lastname, account_email, account_password } = req.body
-
-  const regResult = await accountModel.registerAccount(
-    account_firstname,
-    account_lastname,
-    account_email,
-    account_password
-  )
-
-  if (regResult) {
-    req.flash(
-      "notice",
-      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
-    )
-    res.status(201).render("account/login", {
-      title: "Login",
-      nav,
-    })
-  } else {
-    req.flash("notice", "Sorry, the registration failed.")
-    res.status(501).render("account/register", {
-      title: "Registration",
-      nav,
-    })
-  }
-}
+ *  Process Registration
+ * *************************************** */
 
 /* *****************************
  * Process login request
@@ -134,24 +104,160 @@ async function accountLogin(req, res) {
   }
 }
 
-async function accountManagementView(req, res) {
+/* ****************************
+ * Process Register request
+ * ****************************/
+async function registerAccount(req, res) {
   let nav = await utilities.getNav();
-  res.render("/account/managementView", {
-    title: "You're logged in",
+  const {
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_password,
+  } = req.body;
+
+  // Hash the password before storing
+  let hashedPassword;
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10);
+  } catch (error) {
+    req.flash(
+      "notice",
+      "Sorry, there was an error processing the registration."
+    );
+    res.status(500).render("account/register", {
+      title: "Registration",
+      nav,
+      errors: null,
+    });
+  }
+
+  const regResult = await accountModel.registerAccount(
+    account_firstname,
+    account_lastname,
+    account_email,
+    hashedPassword
+  );
+
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you\'re registered ${account_firstname}. Please log in.`
+    );
+    res.status(201).render("account/login", {
+      title: "Login",
+      nav,
+    });
+  } else {
+    req.flash("notice", "Sorry, the registration failed.");
+    res.status(501).render("account/register", {
+      title: "Registration",
+      nav,
+    });
+  }
+}
+
+async function accountManagement(req, res) {
+  let nav = await utilities.getNav();
+  res.render("inventory/management", {
+    title: "Account Management",
     nav,
     errors: null,
   });
 }
 
+/* **************************
+ * Process Add New Car
+ * **************************/
 
+async function AddNewCar(req, res) {
+  let nav = await utilities.getNav();
+  const { classification_name } = req.body;
+  try {
+    const regResult = await accountModel.AddNewCarToClassification(
+      classification_name
+    );
+
+    if (regResult) {
+      req.flash(
+        "notice",
+        `Congratulations, you added a new ${classification_name} classification.`
+      );
+      res.status(201).render("inventory/management", {
+        title: "Vehicle Management",
+        nav,
+      });
+    } else {
+      req.flash("notice", "Sorry, you couldn't add the new classification.");
+      res.status(501).render("inventory/add-classification", {
+        title: "Add new Classification",
+        nav,
+      });
+    }
+  } catch (error) {
+    req.flash("error", error.message);
+    return res.status(500).redirect("/error");
+  }
+}
+
+
+/* **************************
+ * Process Add New Inventory
+ * **************************/
+async function AddNewInventory(req, res) {
+  let nav = await utilities.getNav();
+  const { inv_make,
+    inv_model,
+    inv_images,
+    inv_description,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+  classification_id} = req.body;
+  
+  const regResult = await accountModel.AddNewItemToInventory(
+    inv_make,
+    inv_model,
+    inv_images,
+    inv_description,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color, 
+    classification_id
+  );
+
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Congratulations, You added a new ${classification_id} in the inventory.`
+    );
+    res.status(201).render("inventory/management", {
+      title: "Inventory",
+      nav,
+    });
+  } else {
+    req.flash("notice", "Sorry, the registration failed.");
+    res.status(501).render("inventory/add-inventory", {
+      title: "Add Inventory",
+      nav,
+    });
+  }  
+}
 
 module.exports = {
   buildLogin,
   buildRegistration,
   registerAccount,
   buildManagement,
-  buildAddClassification,
+  buildAddNewCarClassification,
   buildAddInventory,
   accountLogin,
-  accountManagementView,
+  accountManagement,
+  AddNewCar,
+  AddNewInventory
 };

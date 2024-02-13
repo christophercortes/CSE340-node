@@ -9,27 +9,37 @@ const regValidate = require("../utilities/account-validation");
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 
 // This is the path to "Registration"
-router.get("/register", utilities.handleErrors(accountController.buildRegistration));
+router.get(
+  "/register",
+  utilities.handleErrors(accountController.buildRegistration)
+);
 
 // This is the Path to Add Inventory
-router.get("/add-inventory",utilities.handleErrors(accountController.buildAddInventory));
-
-//This is the path to Management 
-router.get("/management", utilities.handleErrors(accountController.buildManagement));
+router.get(
+  "/add-inventory",
+  utilities.handleErrors(accountController.buildAddInventory)
+);
 
 //This is the path to Add Classification
-router.get("/add-classification", utilities.handleErrors(accountController.buildAddClassification));
+router.get(
+  "/add-classification",
+  utilities.handleErrors(accountController.buildAddNewCarClassification)
+);
 
-/////////////////
-router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement));
-////////////////
+//This is the path to Management View
+router.get("/management",
+  utilities.handleErrors(accountController.buildManagement)
+);
 
 /* ************************** */
 
 // Process the login request
-router.post("/login", regValidate.loginRules(),
-    regValidate.checkLoginData,
-    utilities.handleErrors(accountController.accountLogin));
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
+);
 
 // Process the registration data
 router.post(
@@ -37,17 +47,25 @@ router.post(
   regValidate.registationRules(),
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
-)
+);
 
-router.post("/add-classification", regValidate.classificationRules(), regValidate.checkClassificationData, utilities.handleErrors(accountController.registerAccount));
+router.post(
+  "/add-classification",
+  regValidate.classificationRules(),
+  regValidate.checkClassificationData,
+  utilities.handleErrors(accountController.AddNewCar)
+);
 
-router.post("/add-inventory", regValidate.classificationRules(), regValidate.checkInvData, utilities.handleErrors(accountController.registerAccount));
-// this is not working
-router.post("/management", utilities.handleErrors(accountController.registerAccount));
+router.post(
+  "/add-inventory",
+  regValidate.inventoryRules(),
+  regValidate.checkInvData,
+  utilities.handleErrors(accountController.AddNewInventory)
+);
 
- // Process the login attempt
- router.post("/login", (req, res) => {
-   res.status(200).send("login process");
- });
+// Process the login attempt
+router.post("/login", (req, res) => {
+  res.status(200).send("login process");
+});
 
 module.exports = router;

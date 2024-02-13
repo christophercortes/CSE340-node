@@ -134,6 +134,10 @@ h1 {
   padding-top: 10px;
 }
 
+.management {
+  text-align: center;
+}
+
 footer p {
   font-size: 1rem;
 }

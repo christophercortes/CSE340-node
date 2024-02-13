@@ -18,20 +18,18 @@
         <button class="login" type="submit">Login</button>
 
     </form>
-
+    <a href="/inventory/management">Management</a>
     <p class="noAccount">No account?<a href="/account/register">Sign-up</a></p>
 
 
     <script>
-        
-         function showPassword() {
-         const myPassword = document.getElementById("accountPassword");
-         if (myPassword.type === "password") {
-         myPassword.type = "text";
-         } else {
-         myPassword.type = "password";
-         }
-         }
-
+        function showPassword() {
+            const myPassword = document.getElementById("accountPassword");
+            if (myPassword.type === "password") {
+                myPassword.type = "text";
+            } else {
+                myPassword.type = "password";
+            }
+        }
     </script>
 </div>

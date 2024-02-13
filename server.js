@@ -22,7 +22,7 @@ const cookieParser = require("cookie-parser");
 /* ***********************
  * View Engine and Templates
  *************************/
-app.use(
+app.use( // check if I need to move it down.
   session({
     store: new (require("connect-pg-simple")(session))({
       createTableIfMissing: true,
@@ -42,24 +42,23 @@ app.use(function(req, res, next){
   next()
 })
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(cookieParser());
+app.use(utilities.checkJWTToken);
+
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // not at views root
-
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
-
-app.use(cookieParser());
-
-app.use(utilities.checkJWTToken);
 
 /* ***********************
  * Routes
  *************************/
 app.use(static);
 //Index route with error handling
-app.get("/", utilities.handleErrors(baseController.buildHome));
-//Inventory routes
+app.get("/", utilities.handleErrors(baseController.buildHome)); //the app.get is watching for the base route "/"
+app.use("/error", utilities.handleErrors(baseController.error));
+//Inventory routes, with no other URL elements.
 app.use("/inv", inventoryRoute);
 //Account routes
 app.use("/account", accountRoute);
@@ -71,32 +70,21 @@ app.use(async (req, res, next) => {
   next({ status: 404, message: "Sorry, we appear to have lost that page." });
 });
 
+
 /* ***********************
- * Express Error Handler
- * Place after all other middleware
- *************************/
+* Express Error Handler
+* Place after all other middleware
+*************************/
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav();
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`);
-
-  let message;
-  switch (err.status) {
-    case 404:
-      message = "The page was not found";
-      break;
-    case 500:
-      message = "Server error";
-      break;
-    default:
-      message = "Unexpected error";
-  }
-
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
   res.render("errors/error", {
-    title: err.status || "Server Error",
+    title: err.status || 'Server Error',
     message,
-    nav,
-  });
-});
+    nav
+  })
+})
 
 /* ***********************
  * Local Server Information

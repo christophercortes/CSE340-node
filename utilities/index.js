@@ -1,6 +1,5 @@
 const invModel = require("../models/inventory-model");
 const Util = {};
-const utilities = require("../utilities/")
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -27,14 +26,22 @@ Util.getNav = async function (req, res, next) {
   return list;
 };
 
-module.exports = Util;
+Util.buildSelect = async function (req, res, next) {
+  let select = await invModel.getClassifications();
+    select = '<select>';
+  data.forEach((row) => {
+    select += '<option>' + row.classification_name + '</option>';
+    select += '</select>'
+  });
+  return select;
+  }
 
 /* **************************************
  * Build the classification view HTML
  * ************************************ */
 Util.buildClassificationGrid = async function (data) {
   let grid;
-  if (data && data.length > 0) {
+  if (data.length > 0) {
     grid = '<ul id="inv-display">';
     data.forEach((vehicle) => {
       grid += "<li>";
@@ -51,7 +58,7 @@ Util.buildClassificationGrid = async function (data) {
         vehicle.inv_make +
         " " +
         vehicle.inv_model +
-        ' on CSE Motors"/></a>';
+        ' on CSE Motors" /></a>';
       grid += '<div class="namePrice">';
       grid += "<hr />";
       grid += "<h2>";
@@ -96,7 +103,9 @@ Util.buildDetailGrid = async function (data) {
       grid += `<table>`;
       grid += `<tr>`;
       grid += `<td class="detail-label">Price:</td>`;
-      grid += `<td class="detail-value">$${new Intl.NumberFormat("en-US").format(vehicle.inv_price)}</td>`;
+      grid += `<td class="detail-value">$${new Intl.NumberFormat(
+        "en-US"
+      ).format(vehicle.inv_price)}</td>`;
       grid += `</tr>`;
       grid += `</table>`;
       grid += `<div class="vehicle-description">`;
@@ -110,7 +119,9 @@ Util.buildDetailGrid = async function (data) {
       grid += `</tr>`;
       grid += `<tr>`;
       grid += `<td class="detail-label">Mileage:</td>`;
-      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(vehicle.inv_miles)}</td>`;
+      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(
+        vehicle.inv_miles
+      )}</td>`;
       grid += `</tr>`;
       grid += `</table>`;
     });
@@ -122,19 +133,18 @@ Util.buildDetailGrid = async function (data) {
   return grid;
 };
 
-/* ***************************
+/* ****************************************
  * Middleware For Handling Errors
- * Wrap other functions in this for
+ * Wrap other function in this for 
  * General Error Handling
- ***************************** */
-
+ **************************************** */
 Util.handleErrors = fn => (req, res, next) =>
-  Promise.resolve(fn(req, res, next)).catch(next);
+  Promise.resolve(fn(req, res, next)).catch(next)
 
 
 /* ***************************
-* Middleware to check token validity
-* ***************************/
+ * Middleware to check token validity
+ * ***************************/
 Util.checkJWTToken = (req, res, next) => {
   if (req.cookies.jwt) {
     jwt.verify(
@@ -142,31 +152,30 @@ Util.checkJWTToken = (req, res, next) => {
       process.env.ACCESS_TOKEN_SECRET,
       function (err, accountData) {
         if (err) {
-          req.flash("Please log in")
-          res.clearCookie("jwt")
-          return res.redirect("/account/login")
+          req.flash("Please log in");
+          res.clearCookie("jwt");
+          return res.redirect("/account/login");
         }
-        res.locals.accountData = accountData
-        res.locals.loggedin = 1
-        next()
-      })
+        res.locals.accountData = accountData;
+        res.locals.loggedin = 1;
+        next();
+      }
+    );
   } else {
-    next()
+    next();
   }
 };
-
 
 /* *****************************
-* Check Login
-* *****************************/
+ * Check Login
+ * *****************************/
 Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
-    next()
+    next();
   } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login");
   }
 };
-
 
 module.exports = Util;
