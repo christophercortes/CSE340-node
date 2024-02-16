@@ -23,6 +23,16 @@ async function registerNewAccount(
   }
 }
 
+async function registerLocalAddress(account_address) {
+  try {
+    const sql = "INSERT INTO public.account (account_address) VALUES ($1) RETURNING*"
+    const result = await pool.query(sql, [account_address]);
+    return result.rows[0];
+  } catch (error) {
+    return new Error(error.message);
+  }
+}
+
 /* ************************
  * Add a new Car to Classification
  * ************************/
@@ -172,5 +182,6 @@ module.exports = {
   AddNewItemToInventory,
   getAccountById, 
   updateAccount,
-  updatePassword
+  updatePassword,
+  registerLocalAddress
 };

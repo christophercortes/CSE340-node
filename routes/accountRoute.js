@@ -64,6 +64,11 @@ router.get(
   utilities.handleErrors(accountController.accountUpdateView)
 );
 
+router.get(
+  "/personalAddress",
+  utilities.handleErrors(accountController.buildAddress)
+);
+
 /* ************************** */
 
 // Process the login request
@@ -99,6 +104,13 @@ router.post(
 router.post(
   "/updateAccount",
   utilities.handleErrors(accountController.registerUpdateAccount)
+);
+
+// Process the Address request
+router.post("/personalAddress",
+  regValidate.addressRule(),
+  regValidate.checkAddressData,
+  utilities.handleErrors(accountController.registerAddress)
 );
 
 // Process the login attempt

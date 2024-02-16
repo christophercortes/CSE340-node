@@ -1,0 +1,17 @@
+<title><%- title %></title>
+<h1><%= title %></h1>
+
+<!-- Display flash messages if any -->
+<%- messages() %>
+
+<h2>Add personal address</h2>
+<p>Fields are required.</p>
+<div class="loginForm">
+    <form id="loginForm" action="/account/personalAddress" method="post">
+        <label class="first" for="accountAddress">Address:</label>
+        <input type="text" name="account_address" id="accountAddress" required size="10"
+            value="<%= locals.account_address %>">
+        <button class="register" type="submit">Submit</button>
+    </form>
+
+</div>

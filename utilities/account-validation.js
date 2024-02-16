@@ -36,7 +36,6 @@ validate.loginRules = () => {
       .withMessage("Password does not meet requirements."),
   ];
 };
-
 /*  **********************************
  *  Registration Data Validation Rules
  * ********************************* */
@@ -90,11 +89,20 @@ validate.classificationRules = () => [
     .withMessage(
       "Provide a correct classification name (alphanumeric characters only.)")
     .custom(async (classification_name) => {
-      const classificationExists = await invModel.checkExistingCat(classification_name);
+      const classificationExists = await invModel.checkExistingClassification(classification_name);
       if (classificationExists) throw new Error("Classification already exists.");
     }),
 ];
 
+validate.addressRule = () => [
+  body("account_address")
+    .trim()
+    .notEmpty()
+    .matches(/[a-zA-Z0-9\s,'-]/)
+    .withMessage(
+      "Invalid characters in address. Please use only letters, numbers, spaces, commas, apostrophes, and hyphens."
+    ),
+];
 
 
 validate.inventoryRules = () => {
@@ -219,6 +227,22 @@ validate.checkLoginData = async (req, res, next) => {
   }
   next();
 };
+
+validate.checkAddressData = async (req, res, next) => {
+  const { account_address } = req.body;
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("account/personalAddress", {
+      errors,
+      title: "Address",
+      nav,
+      account_address,
+    });
+  }
+  next();
+}
 
 validate.checkRegData = async (req, res, next) => {
   const { account_firstname, account_lastname, account_email } = req.body;

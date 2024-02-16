@@ -108,6 +108,16 @@ async function accountUpdateView(req, res, next) {
   });
 }
 
+/*Deliver Address view*/
+async function buildAddress(req, res, next) {
+  let nav = await utilities.getNav();
+  res.render("account/personalAddress", {
+    title: "Personal Address",
+    nav,
+    errors: null,
+  });
+}
+
 /* ****************************************
  *  Process Registration
  * *************************************** */
@@ -239,59 +249,35 @@ async function updateUserAccount(req, res) {
   }
 }
 /* ************************
-* Process Account Registration
+* Process Account Address
 **************************/
-// async function registerAccount(req, res) {
-//   let nav = await utilities.getNav();
-//   const {
-//     account_firstname,
-//     account_lastname,
-//     account_email,
-//     account_password,
-//   } = req.body;
+async function registerAddress(req, res) {
+  let nav = await utilities.getNav();
+  const {
+    account_address,
+  } = req.body;
 
-//   // Hash the password before storing
-//   let hashedPassword;
-//   try {
-//     // regular password and cost (salt is generated automatically)
-//     hashedPassword = await bcrypt.hashSync(account_password, 10);
-//   } catch (error) {
-//     req.flash(
-//       "notice",
-//       "Sorry, there was an error processing the registration."
-//     );
-//     res.status(500).render("account/register", {
-//       title: "Registration",
-//       nav,
-//       errors: null,
-//     });
-//   }
+  const regResult = await accountModel.registerLocalAddress(
+    account_address
+  );
 
-//   const regResult = await accountModel.registerNewAccount(
-//     // there must be a typo with the name
-//     account_firstname,
-//     account_lastname,
-//     account_email,
-//     hashedPassword
-//   );
-
-//   if (regResult) {
-//     req.flash(
-//       "notice",
-//       `Congratulations, you\'re registered ${account_firstname}. Please log in.`
-//     );
-//     res.status(201).render("account/login", {
-//       title: "Login",
-//       nav,
-//     });
-//   } else {
-//     req.flash("notice", "Sorry, the registration failed.");
-//     res.status(501).render("account/register", {
-//       title: "Registration",
-//       nav,
-//     });
-//   }
-// }
+  if (regResult) {
+    req.flash(
+      "notice",
+      `Congratulations, you register ${account_address} Address.`
+    );
+    res.status(201).render("account/managementView", {
+      title: "Login",
+      nav,
+    });
+  } else {
+    req.flash("notice", "Sorry, the registration failed.");
+    res.status(501).render("account/personalAddress", {
+      title: "Address",
+      nav,
+    });
+  }
+}
 
 
 /* **************************
@@ -466,7 +452,7 @@ async function updateNewPassword(req, res) {
 module.exports = {
   buildLogin,
   buildRegistration,
-  //registerAccount,
+  registerAddress,
   buildManagement,
   buildAddNewCarClassification,
   buildAddInventory,
@@ -481,5 +467,6 @@ module.exports = {
   registerUpdateAccount,
   updateUserAccount,
   updateNewPassword,
-  accountDelete
+  accountDelete,
+  buildAddress
 };
