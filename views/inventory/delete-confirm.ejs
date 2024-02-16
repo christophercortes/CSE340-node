@@ -1,0 +1,28 @@
+<title><%= title %></title>
+<h1><%= title %></h1>
+
+<!-- Display flash messages if any -->
+<%- messages() %>
+
+<div class="loginForm">
+    <p>Confirm Deletion - The delete is permanent.</p>
+    <form id="updateForm" action="/inventory/delete-confirm" method="post">
+        <label for="makeName">Make</label>
+        <input type="text" id="makeName" name="inv_make" required minlength="3" placeholder="Min of 3 characters"
+            value="<%= locals.inv_make %>" readonly>
+        <label for="modelName">Model</label>
+        <input type="text" id="modelName" name="inv_model" required minlength="3" placeholder="Min of 3 characters"
+            value="<%= locals.inv_model %>" readonly>
+        <label for="price">Price</label>
+        <input type="text" id="price" name="inv_price" required minlength="4" placeholder="Min of 4 characters"
+            value="<%= locals.inv_price %>" readonly>
+        <label for="year">Year</label>
+        <input type="text" id="year" name="inv_year" minlength="4" placeholder="Min of 4 characters"
+            value="<%= locals.inv_year %>" readonly>
+
+        <input type="hidden" name="inv_id" <% if(locals.inv_id) {%> value="locals.inv_id %>" <% } %>>
+        <button class="login" type="submit">Delete</button>
+    </form>
+</div>
+
+<script src="../../js/inv-update.js"></script>

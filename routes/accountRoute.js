@@ -14,6 +14,12 @@ router.get(
   utilities.handleErrors(accountController.buildRegistration)
 );
 
+//This is the path to Management View
+router.get(
+  "/management",
+  utilities.handleErrors(accountController.buildManagement)
+);
+
 // This is the Path to Add Inventory
 router.get(
   "/add-inventory",
@@ -26,9 +32,36 @@ router.get(
   utilities.handleErrors(accountController.buildAddNewCarClassification)
 );
 
-//This is the path to Management View
-router.get("/management",
-  utilities.handleErrors(accountController.buildManagement)
+// This is the path to the ManagementView file under account folder.
+// router.get(
+//   "/managementView",
+//   utilities.handleErrors(accountController.buildManagementView)
+// );
+
+router.get(
+  "/edit-inventory",
+  utilities.handleErrors(accountController.buildEdit)
+);
+
+router.get(
+  "/managementView",
+  utilities.handleErrors(accountController.buildManagementView)
+);
+
+router.get(
+  "/delete-confirm",
+  utilities.handleErrors(accountController.accountDelete)
+);
+
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildManagementView)
+);
+
+router.get(
+  "/updateAccount",
+  utilities.handleErrors(accountController.accountUpdateView)
 );
 
 /* ************************** */
@@ -46,7 +79,7 @@ router.post(
   "/register",
   regValidate.registationRules(),
   regValidate.checkRegData,
-  utilities.handleErrors(accountController.registerAccount)
+  utilities.handleErrors(accountController.registerNewUserAccount)
 );
 
 router.post(
@@ -63,9 +96,14 @@ router.post(
   utilities.handleErrors(accountController.AddNewInventory)
 );
 
+router.post(
+  "/updateAccount",
+  utilities.handleErrors(accountController.registerUpdateAccount)
+);
+
 // Process the login attempt
-router.post("/login", (req, res) => {
-  res.status(200).send("login process");
-});
+// router.post("/login", (req, res) => {
+//   res.status(200).send("login process");
+// });
 
 module.exports = router;

@@ -2,6 +2,7 @@ const utilities = require(".");
 const { body, validationResult } = require("express-validator");
 const validate = {};
 const accountModel = require("../models/account-model");
+const { error } = require("../controllers/baseController");
 
 /*  **********************************
  *  Data Validation Rules
@@ -82,16 +83,19 @@ validate.registationRules = () => {
   ];
 };
 
-validate.classificationRules = () => {
-  return [
-    body("classification_name")
-      .trim()
-      .matches(/[A-Zaz0-9]/)
-      .withMessage(
-        "Provide a correct classification name (alphanumeric characters only)."
-      ),
-  ];
-};
+validate.classificationRules = () => [
+  body("classification_name")
+    .trim()
+    .matches(/[A-Za-z0-9]/)
+    .withMessage(
+      "Provide a correct classification name (alphanumeric characters only.)")
+    .custom(async (classification_name) => {
+      const classificationExists = await invModel.checkExistingCat(classification_name);
+      if (classificationExists) throw new Error("Classification already exists.");
+    }),
+];
+
+
 
 validate.inventoryRules = () => {
   return [
@@ -105,7 +109,7 @@ validate.inventoryRules = () => {
       .isLength({ min: 2 })
       .withMessage("Please provide make name."), // on error this message is sent.
 
-    body("inv_mode")
+    body("inv_model")
       .trim()
       .isLength({ min: 2 })
       .withMessage("Please provide a mode name."),
@@ -139,6 +143,59 @@ validate.inventoryRules = () => {
       .trim()
       .isLength({ min: 2 })
       .withMessage("Please provide a color name."),
+  ];
+};
+
+validate.newInventoryRules = () => {
+  return [
+    body("classification_name")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a classification name."), // on error this message is sent.
+
+    body("inv_make")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide make name."), // on error this message is sent.
+
+    body("inv_model")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a mode name."),
+
+    body("inv_image")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a image name."),
+
+    body("inv_thumbnail")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a thumbnail name."),
+
+    body("inv_price")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a price."),
+
+    body("inv_year")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a year."),
+
+    body("inv_miles")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide miles."),
+
+    body("inv_color")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a color name."),
+    body("inv_id")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("Please provide a valid id.")
   ];
 };
 
@@ -188,8 +245,7 @@ validate.checkClassificationData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    return (
-      res.render("inventory/add-classification"),
+    res.render("inventory/add-classification",
       {
         errors,
         title: "Classification",
@@ -216,7 +272,7 @@ validate.checkInvData = async (req, res, next) => {
   errors = validationResult(req);
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav();
-    res.render("inventory/add-inventory"),
+    res.render("inventory/add-inventory",
       {
         errors,
         title: "Inventory",
@@ -229,7 +285,43 @@ validate.checkInvData = async (req, res, next) => {
         inv_year,
         inv_miles,
         inv_color,
-      };
+      });
+    return;
+  }
+  next();
+};
+
+
+validate.checkUpadteData = async (req, res, next) => {
+  const {
+    inv_make,
+    inv_model,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    inv_id
+  } = req.body;
+  let errors = [];
+  errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav();
+    res.render("inventory/edit-inventory", {
+      errors,
+      title: "Edit Inventory",
+      nav,
+      inv_make,
+      inv_model,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      inv_id
+    });
     return;
   }
   next();

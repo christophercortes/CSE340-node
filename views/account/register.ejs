@@ -4,18 +4,11 @@
 <!-- Display flash messages if any -->
 <%- messages() %>
 
-<% if (errors) { %>
-<ul class="notice">
-    <% errors.array().forEach(error => { %>
-    <li><%= error.msg %></li>
-    <%  }) %>
-</ul>
-<% } %>
-
 <div class="loginForm">
+    <p>All fields are required.</p>
     <form action="/account/register" method="post">
         <label class="first" for="accountFirstname">First Name:</label>
-        <input type="text" name="account_firstname" id="accountFirstname" required
+        <input type="text" name="account_firstname" id="accountFirstname" required size="10"
             value="<%= locals.account_firstname %>">
         <label class="first" for="accountLastName">Last Name:</label>
         <input type="text" id="accountLastName" name="account_lastname" required value="<%= locals.account_lastname %>">

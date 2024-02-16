@@ -1,45 +1,49 @@
-<title><%- title %></title>
+<title><%= title %></title>
 <h1><%= title %></h1>
 
 <!-- Display flash messages if any -->
 <%- messages() %>
 
-
-
 <div class="loginForm">
-    <form id="loginForm" action="/inventory/edit-inventory" method="post" onsubmit="return validateForm()">
-        <label class="first" for="classificationId">Classification</label>
-        <select id="classificationId" name="classification_id" required>
-            <option></option>
-        </select>
+    <form id="updateForm" action="/inventory/update" method="post" onsubmit="return validateForm()">
+        <label for="classificationList">Classification</label>
+        
 
-        <label class="first" for="makeName">Make</label>
-        <input type="text" id="makeName" name="inv_make" required>
+        <label for="makeName">Make</label>
+        <input type="text" id="makeName" name="inv_make" required minlength="3" placeholder="Min of 3 characters"
+            value="<%= locals.inv_make %>">
 
-        <label class="first" for="modelName">Model</label>
-        <input type="text" id="modelName" name="inv_model" required>
+        <label for="modelName">Model</label>
+        <input type="text" id="modelName" name="inv_model" required minlength="3" placeholder="Min of 3 characters"
+            value="<%= locals.inv_model %>">
 
-        <label class="first" for="descriptionName">Description</label>
+        <label for="descriptionName">Description</label>
         <textarea name="inv_description" rows="10" cols="30"></textarea>
 
-        <label class="first" for="imagePath">Image Path</label>
+        <label for="imagePath">Image Path</label>
         <input type="text" id="imagePath" name="inv_image" value="/images/no_image.jpg" required>
 
-        <label class="first" for="thumbnailPath">Thumbnail Path</label>
+        <label for="thumbnailPath">Thumbnail Path</label>
         <input type="text" id="thumbnailPath" name="inv_thumbnail" value="/images/no_thumbnail.jpg">
 
-        <label class="first" for="price">Price</label>
-        <input type="text" id="price" name="inv_price" required>
+        <label for="price">Price</label>
+        <input type="text" id="price" name="inv_price" required minlength="4" placeholder="Min of 4 characters"
+            value="<%= locals.inv_price %>">
 
-        <label class="first" for="year">Year</label>
-        <input type="text" id="year" name="inv_year">
+        <label for="year">Year</label>
+        <input type="text" id="year" name="inv_year" minlength="4" placeholder="Min of 4 characters"
+            value="<%= locals.inv_year %>">
 
-        <label class="first" for="miles">Miles</label>
-        <input type="text" id="miles" name="inv_miles" required>
+        <label for="miles">Miles</label>
+        <input type="text" id="miles" name="inv_miles" required minlength="2" placeholder="Min of 2 characters"
+            value="<%= locals.inv_miles %>">
 
-        <label class="first" for="color">Color</label>
+        <label for="color">Color</label>
         <input type="text" id="color" name="inv_color" required>
 
         <button class="login" type="submit">Update Vehicle</button>
+        <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
     </form>
 </div>
+
+<script src="../../js/inv-update.js"></script>

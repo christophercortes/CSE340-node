@@ -26,16 +26,6 @@ Util.getNav = async function (req, res, next) {
   return list;
 };
 
-Util.buildSelect = async function (req, res, next) {
-  let select = await invModel.getClassifications();
-    select = '<select>';
-  data.forEach((row) => {
-    select += '<option>' + row.classification_name + '</option>';
-    select += '</select>'
-  });
-  return select;
-  }
-
 /* **************************************
  * Build the classification view HTML
  * ************************************ */
@@ -133,18 +123,32 @@ Util.buildDetailGrid = async function (data) {
   return grid;
 };
 
+Util.buildClassificationList = async function (classification_id) {
+  let data = await invModel.getClassifications();
+  let select = `<label for=classification_id>Classification:</label><select id="classificaiton_id" class="" name="classificaiton_name" required>
+  <option value="">Select Classification</option>`;
+  for (var i = 0; i < data.rowCount; i++) {
+    const selected =
+      classification_id && data.rows[i].classification_id === classification_id
+        ? "selected"
+        : "";
+    select += `<option value="${data.rows[i].classification_id}" ${selected}>${data.rows[i].classification_name}</option>`;
+  }
+  select += "</select>";
+  return select;
+};
+
 /* ****************************************
  * Middleware For Handling Errors
- * Wrap other function in this for 
+ * Wrap other function in this for
  * General Error Handling
  **************************************** */
-Util.handleErrors = fn => (req, res, next) =>
-  Promise.resolve(fn(req, res, next)).catch(next)
+Util.handleErrors = (fn) => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
 
-
-/* ***************************
+/* ****************************************
  * Middleware to check token validity
- * ***************************/
+ **************************************** */
 Util.checkJWTToken = (req, res, next) => {
   if (req.cookies.jwt) {
     jwt.verify(
@@ -166,9 +170,9 @@ Util.checkJWTToken = (req, res, next) => {
   }
 };
 
-/* *****************************
- * Check Login
- * *****************************/
+/* ****************************************
+ *  Check Login
+ * ************************************ */
 Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next();

@@ -27,5 +27,17 @@ router.get(
   "/inventory/:inventory_id",utilities.handleErrors(
   invController.buildByEditInventoryId)
 );
+// Route to the edit view
+
+// router.get("/inventory/edit-inventory",
+//   utilities.handleErrors(invController.buildByAddInventoryId)
+// );
+
+router.post("/update/", invController.updateInventory);
+
+// A route handler that calls a controller function to deliver the delete confirmation view 
+router.get("/delete/:inv_id",
+  utilities.handleErrors(invController.deleteView)
+);
 
 module.exports = router;
