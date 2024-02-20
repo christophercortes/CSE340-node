@@ -87,24 +87,6 @@ async function getDetailsByInventoryId(inventory_id) {
   }
 }
 
-/* ************************
- * Insert a New Inventory Item
- * ************************/
-
-// async function getAddInventoryId(classification_name) {
-//   try {
-//     const data = await pool.query(
-//       `INSERT INTO classification
-// 	(classification_name)
-// VALUES
-// 	(${classification_name})`
-//     );
-//     return data.rows;
-//   } catch (error) {
-//     console.error("getdetailsbyaddinventoryid" + error);
-//   }
-// }
-
 /* ***************************
  *  Update Inventory Data
  * ************************** */
@@ -160,7 +142,6 @@ module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getDetailsByInventoryId,
-  //getAddInventoryId,
   registerNewClassification,
   addInventory,
   updateInventory,
