@@ -215,9 +215,9 @@ async function accountLogin(req, res) {
 }
 
 
-/* ****************************
+/* ******************************
  * Process Update Account request
- * ****************************/
+ * *****************************/
 async function updateUserAccount(req, res) {
   let nav = await utilities.getNav();
   const { account_firstname, account_lastname, account_email } = req.body;
